@@ -29,7 +29,7 @@ export const Navbar = () => {
   const username= userInfo?.username;
   return (
     <header className='flex justify-center gap-[600px] p-5  max-w-[70%] mx-auto mt-5 mb-7 '>
-        <Link to="/" className='font-bold text-2xl'>My Blog</Link>
+        <Link to="/" className='font-bold text-2xl  border-2 px-3 py-1 border-black  '>My Blog</Link>
         <nav className='flex gap-10 items-center'>
           
           {username &&
