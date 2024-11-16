@@ -1,11 +1,16 @@
 import express from "express";
 import dotenv from 'dotenv';
 import cors from 'cors'
+
 import mongoose from "mongoose"
 import userModel from "./models/User.js";
+import postModel from "./models/Post.js" ;
+
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import cookieParser from "cookie-parser";
+import multer from "multer";
+import fs from "file-system";
 
 //Load environment variables
 dotenv.config();
@@ -18,8 +23,10 @@ app.use(express.json());
 app.use(cookieParser());
 
 //encryption salt for bycrypt
+
 const salt = bcrypt.genSaltSync(10);
 
+const uploadMiddleware= multer({dest: 'uploads/'});
 mongoose.connect(process.env.DB_URL)
     .then(()=>{
         console.log("connected to mongoDB!");
@@ -88,5 +95,22 @@ app.get('/profile',(req,res)=>{
 
 app.post('/logout',(req,res)=>{
     res.cookie('token','').json('ok');
+})
+
+
+app.post('/post',uploadMiddleware.single('file'),async (req,res)=>{
+    const {originalname,path}= req.file;
+    const parts= originalname.split('.');
+    const extension= parts[parts.length-1];
+    await fs.renameSync(path,path+'.'+extension);
+    
+    const {title,summary,content}=req.body;
+    const postDoc= await postModel.create({
+        title: title,
+        summary: summary,
+        content: content,
+        cover: path,
+    })
+    res.json('ok');
 })
 
