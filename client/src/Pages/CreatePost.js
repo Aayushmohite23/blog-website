@@ -1,24 +1,13 @@
-import React, { useState } from 'react'
-import ReactQuill from 'react-quill-new'
+import { eachMinuteOfInterval, longFormatters } from 'date-fns';
+import React, { useState,useEffect } from 'react'
+
 import 'react-quill-new/dist/quill.snow.css';
 import { Link, Navigate } from 'react-router-dom';
+import {ToastContainer,toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Editor from '../Components/Editor';
 
 
-const modules = {
-    toolbar: [
-      [{ 'header': [1, 2, false] }],
-      ['bold', 'italic', 'underline','strike', 'blockquote'],
-      [{'list': 'ordered'}, {'list': 'bullet'}, {'indent': '-1'}, {'indent': '+1'}],
-      ['link', 'image'],
-      ['clean']
-    ],
-};
-const  formats = [
-    'header',
-    'bold', 'italic', 'underline', 'strike', 'blockquote',
-    'list', 'bullet', 'indent',
-    'link', 'image'
-];
 
 
 
@@ -28,6 +17,13 @@ const CreatePost = () => {
     const [content,setContent]= useState('');
     const [files,setFiles]=useState('');
     const[redirect,setRedirect]=useState(false);
+    
+    
+    const notifyAndRedirect=()=>{
+        toast("Blog Uploaded!", {
+            onClose: () => setRedirect(true), // Redirect after the toast closes
+        });
+    }
 
     const createNewPost= async (ev)=>{
         const data= new FormData();
@@ -39,16 +35,29 @@ const CreatePost = () => {
         // console.log(files);
         const response= await fetch('http://localhost:4000/post',{
             method: 'POST',
-            body: data
+            body: data,
+            credentials:'include',
         });
-        if(response.ok)
-            setRedirect(true);
+        if(response.ok){
+            notifyAndRedirect();
+        }
+        else{
+            alert("An error occurred! Please try again");
+        }
+        
     };
+
     
     if(redirect)
-        return(<Navigate to='/'/>);
+        return(
+            <Navigate to='/'/>
+        );
+
+    
     return (
     <>
+        <ToastContainer position="bottom-right" autoClose={3000} />
+
         <div className='mx-auto my-2 w-[60%] flex justify-end px-5'>
             <Link to='/' className='hover:cursor-pointer hover:underline'>Browse Blogs</Link>
         </div>
@@ -75,14 +84,11 @@ const CreatePost = () => {
                     className='w-[100%] border border-gray-400  rounded-md p-1'
                 />
             </div>
-            <ReactQuill 
-                theme='snow' 
-                value={content} 
-                onChange={newValue=> setContent(newValue)} 
-                className='w-[60%]' modules={modules} formats={formats}
-            />
-            <button className='bg-gray-800 text-white w-[60%] border border-black rounded-md p-2'>Create Post</button>
+            <Editor value={content} onChange={setContent}/>
+            <button  className='bg-gray-800 text-white w-[60%] border border-black rounded-md p-2'>Create Post</button>
         </form>
+        
+                
         
     </>
   )
