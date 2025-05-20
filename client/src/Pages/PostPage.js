@@ -27,7 +27,7 @@ const PostPage = () => {
                 {/* Hero Image Section */}
                 <div className='relative w-full h-[400px] mb-8 rounded-lg overflow-hidden shadow-lg'>
                     <img 
-                        src={'http://localhost:4000/'+postInfo.cover}
+                        src={process.env.server_url+'/'+postInfo.cover}
                         className='w-full h-full object-cover'
                         alt={postInfo.title}
                     />

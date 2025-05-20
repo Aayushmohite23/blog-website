@@ -29,7 +29,7 @@ export default function CommentSection({ postId }) {
         if (!newComment.trim()) return;
 
         try {
-            const response = await axios.post('http://localhost:4000/comment', {
+            const response = await axios.post(process.env.server_url+'/comment', {
                 content: newComment,
                 postId: postId
             }, { withCredentials: true });
