@@ -15,7 +15,7 @@ export default function CommentSection({ postId }) {
 
     const fetchComments = async () => {
         try {
-            const response = await axios.get(`http://localhost:4000/comments/${postId}`);
+            const response = await axios.get(`${process.env.REACT_APP_SERVER_URL}/comments/${postId}`);
             setComments(response.data);
             setError('');
         } catch (error) {
@@ -29,7 +29,7 @@ export default function CommentSection({ postId }) {
         if (!newComment.trim()) return;
 
         try {
-            const response = await axios.post(process.env.server_url+'/comment', {
+            const response = await axios.post(process.env.REACT_APP_SERVER_URL+'/comment', {
                 content: newComment,
                 postId: postId
             }, { withCredentials: true });

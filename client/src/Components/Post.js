@@ -9,7 +9,7 @@ const Post = ({_id,title,summary,createdAt,author,content,cover}) => {
           <div className="w-[300px] h-[200px] overflow-hidden rounded-lg">
             <Link to= {`/post/${_id}`}>
               <img 
-                src={"http://localhost:4000/"+cover} 
+                src={process.env.REACT_APP_SERVER_URL+"/"+cover} 
                 alt=""
                 className="w-full h-full object-cover"
               />

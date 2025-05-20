@@ -8,7 +8,7 @@ export const Navbar = () => {
   const {userInfo,setUserInfo}= useContext(UserContext);
   
   useEffect(()=>{
-    fetch(process.env.server_url+'/profile',{
+    fetch(process.env.REACT_APP_SERVER_URL+'/profile',{
       method: 'GET',
       credentials:'include',
     }).then((response)=>{
@@ -19,7 +19,7 @@ export const Navbar = () => {
   },[]);
 
   const logout=()=>{
-    fetch(process.env.server_url+'/logout',{
+    fetch(process.env.REACT_APP_SERVER_URL+'/logout',{
       method:'POST',
       credentials:'include',
     });

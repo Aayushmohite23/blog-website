@@ -20,7 +20,7 @@ dotenv.config();
 const JWT_SECRET= process.env.JWT_SECRET;
 
 const app= express();
-app.use(cors({credentials: true, origin:'http://localhost:3000'}));
+app.use(cors({credentials: true, origin:process.env.VERCEL_URL}));
 app.use(express.json());
 app.use(cookieParser());
 

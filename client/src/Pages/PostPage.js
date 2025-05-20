@@ -9,7 +9,7 @@ const PostPage = () => {
     const {id}= useParams();
     const {userInfo}= useContext(UserContext);
     useEffect(() => {
-        fetch(`http://localhost:4000/post/${id}`)
+        fetch(`${process.env.REACT_APP_SERVER_URL}/post/${id}`)
             .then(response =>{
                 response.json().then(postInfo=>{
                     setPostInfo(postInfo);
@@ -27,7 +27,7 @@ const PostPage = () => {
                 {/* Hero Image Section */}
                 <div className='relative w-full h-[400px] mb-8 rounded-lg overflow-hidden shadow-lg'>
                     <img 
-                        src={process.env.server_url+'/'+postInfo.cover}
+                        src={process.env.REACT_APP_SERVER_URL+'/'+postInfo.cover}
                         className='w-full h-full object-cover'
                         alt={postInfo.title}
                     />

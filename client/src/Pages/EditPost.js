@@ -16,7 +16,7 @@ const EditPost = () => {
 
     
     useEffect(()=>{
-        fetch(`http://localhost:4000/post/${id}`, {
+        fetch(`${process.env.REACT_APP_SERVER_URL}/post/${id}`, {
             credentials: 'include'
         })
             .then(response=>{
@@ -45,7 +45,7 @@ const EditPost = () => {
             data.set('file',files?.[0]);
         ev.preventDefault();
         // console.log(files);
-        const response= await fetch('http://localhost:4000/post',{
+        const response= await fetch(process.env.REACT_APP_SERVER_URL+'/post',{
             method: 'PUT',
             body: data,
             credentials: 'include',

@@ -5,7 +5,7 @@ import Post from '../Components/Post'
 const Indexpage = () => {
   const [posts,setPosts]=new useState([]);
   useEffect(()=>{
-    fetch(process.env.server_url+'/post').then(response =>{
+    fetch(process.env.REACT_APP_SERVER_URL+'/post').then(response =>{
       response.json().then(posts =>{
         setPosts(posts);
         console.log(posts);

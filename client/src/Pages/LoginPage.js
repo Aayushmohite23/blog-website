@@ -10,7 +10,7 @@ const LoginPage = () => {
   const {setUserInfo}= useContext(UserContext);
   const login= async(ev)=>{
     ev.preventDefault();
-    const response= await fetch(process.env.server_url+'/login',{
+    const response= await fetch(process.env.REACT_APP_SERVER_URL+'/login',{
       method: 'POST',
       body: JSON.stringify({username,password}),
       headers: {'Content-Type':'application/json'},
